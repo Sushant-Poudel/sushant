@@ -44,19 +44,31 @@
     overflow: hidden;
     text-align: center;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    opacity: 0;
+    animation: card-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .cover {
-    height: 130px;
-    background: #000 url("assets/background.webp") center 55% / cover no-repeat;
+    aspect-ratio: 2000 / 1121;
+    max-height: 220px;
+    background: #000;
     position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: "";
+    position: absolute;
+    inset: -8%;
+    background: url("assets/background.webp") center center / cover no-repeat;
+    animation: cover-pan 18s ease-in-out infinite alternate;
   }
 
   .cover::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(10,10,10,0.85) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(10,10,10,0.9) 100%);
   }
 
   .card-body {
@@ -70,10 +82,12 @@
     object-fit: cover;
     object-position: center 20%;
     border: 4px solid var(--card-bg);
-    box-shadow: 0 0 0 2px rgba(255,255,255,0.15);
+    position: relative;
+    z-index: 1;
     margin: -58px auto 16px;
     display: block;
-    position: relative;
+    animation: avatar-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s backwards,
+               avatar-glow 3s ease-in-out 0.8s infinite;
   }
 
   h1 {
@@ -81,16 +95,21 @@
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: 0.2px;
+    opacity: 0;
+    animation: fade-up 0.5s ease 0.35s forwards;
   }
 
   .tagline {
     margin: 0 0 18px;
     font-size: 0.95rem;
     font-weight: 600;
-    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-1));
+    background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    opacity: 0;
+    animation: fade-up 0.5s ease 0.42s forwards, shimmer 4s linear 1s infinite;
   }
 
   .bio {
@@ -98,6 +117,8 @@
     font-size: 0.92rem;
     line-height: 1.55;
     color: var(--muted);
+    opacity: 0;
+    animation: fade-up 0.5s ease 0.5s forwards;
   }
 
   .links {
@@ -118,31 +139,48 @@
     border: 1px solid rgba(255,255,255,0.08);
     color: var(--text);
     text-decoration: none;
+    font-family: inherit;
     font-size: 0.93rem;
     font-weight: 500;
-    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    appearance: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     text-align: left;
+    opacity: 0;
+    animation: fade-up 0.45s ease forwards;
+    animation-delay: calc(var(--i, 0) * 0.06s + 0.55s);
   }
 
-  .link-btn:hover,
-  .link-btn:active {
+  .link-btn:hover {
     background: rgba(255,255,255,0.12);
     border-color: rgba(255,255,255,0.2);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  }
+
+  .link-btn:active {
+    transform: translateY(0) scale(0.98);
   }
 
   .link-btn .icon {
     flex: none;
-    width: 22px;
-    height: 22px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(135deg, rgba(194,63,194,0.18), rgba(242,169,59,0.18));
+    transition: transform 0.2s ease;
+  }
+
+  .link-btn:hover .icon {
+    transform: scale(1.08);
   }
 
   .link-btn .icon svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     fill: currentColor;
   }
 
@@ -152,6 +190,14 @@
     font-weight: 400;
     font-size: 0.78rem;
     margin-top: 1px;
+  }
+
+  .link-btn.copied .icon {
+    background: linear-gradient(135deg, rgba(80,220,140,0.35), rgba(80,220,140,0.18));
+  }
+
+  .link-btn.copied .copy-text {
+    color: #7be3a6;
   }
 
   .business {
@@ -166,11 +212,15 @@
     letter-spacing: 1.5px;
     color: var(--muted);
     margin-bottom: 10px;
+    opacity: 0;
+    animation: fade-up 0.45s ease 0.85s forwards;
   }
 
   footer {
     margin-top: 18px;
     text-align: center;
+    opacity: 0;
+    animation: fade-up 0.5s ease 1.1s forwards;
   }
 
   footer p {
@@ -179,9 +229,50 @@
     margin: 0;
   }
 
+  @keyframes card-in {
+    from { opacity: 0; transform: translateY(24px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  @keyframes avatar-in {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes avatar-glow {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(255,255,255,0.15), 0 0 0 0 rgba(194,63,194,0.35); }
+    50% { box-shadow: 0 0 0 2px rgba(255,255,255,0.15), 0 0 22px 4px rgba(242,169,59,0.28); }
+  }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes shimmer {
+    to { background-position: 200% center; }
+  }
+
+  @keyframes cover-pan {
+    from { transform: scale(1.06) translate(-1.5%, -1%); }
+    to   { transform: scale(1.12) translate(1.5%, 1%); }
+  }
+
   @media (max-width: 380px) {
     .card-body { padding: 0 20px 28px; }
     .link-btn { padding: 12px 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+    .card, .avatar, h1, .tagline, .bio, .link-btn, .business-name, footer {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
 </style>
 </head>
@@ -196,44 +287,51 @@
     <p class="bio">Thanks for tapping my card! Here's where you can find and reach me.</p>
 
     <div class="links">
-      <a class="link-btn" href="tel:+9779847057346">
+      <a class="link-btn" style="--i:0" href="tel:+9779847057346">
         <span class="icon">
           <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.36 11.36 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
         </span>
         <span class="label">Call<br><small>+977 984-7057346</small></span>
       </a>
 
-      <a class="link-btn" href="mailto:poudelsushant79@gmail.com">
+      <a class="link-btn" style="--i:1" href="mailto:poudelsushant79@gmail.com">
         <span class="icon">
           <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
         </span>
         <span class="label">Email<br><small>poudelsushant79@gmail.com</small></span>
       </a>
 
-      <a class="link-btn" href="https://www.instagram.com/_sushant.paudel" target="_blank" rel="noopener">
+      <a class="link-btn" style="--i:2" href="https://www.instagram.com/_sushant.paudel" target="_blank" rel="noopener">
         <span class="icon">
           <svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.5.5.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43C21.99 8.94 22 9.28 22 12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.77c-.5.5-1.11.9-1.77 1.15-.64.25-1.37.42-2.43.47C15.06 21.99 14.72 22 12 22s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77.5-.5 1.11-.9 1.77-1.15.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.4-8.4a1.17 1.17 0 1 1-2.34 0 1.17 1.17 0 0 1 2.34 0z"/></svg>
         </span>
         <span class="label">Instagram<br><small>@_sushant.paudel</small></span>
       </a>
 
-      <a class="link-btn" href="https://www.facebook.com/share/1URBNTi4gK/?mibextid=wwXIfr" target="_blank" rel="noopener">
+      <a class="link-btn" style="--i:3" href="https://www.facebook.com/share/1URBNTi4gK/?mibextid=wwXIfr" target="_blank" rel="noopener">
         <span class="icon">
           <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
         </span>
         <span class="label">Facebook<br><small>Sushant Poudel</small></span>
       </a>
+
+      <button class="link-btn" type="button" style="--i:4" data-copy="dotz.gg" onclick="copyHandle(this)">
+        <span class="icon">
+          <svg viewBox="0 0 24 24"><path d="M20.32 4.37a19.8 19.8 0 0 0-4.89-1.52 14.1 14.1 0 0 0-.64 1.32 18.4 18.4 0 0 0-5.58 0 14.1 14.1 0 0 0-.64-1.32 19.7 19.7 0 0 0-4.89 1.52C1.05 8.1.32 11.72.65 15.29a19.9 19.9 0 0 0 6.05 3.06c.49-.67.92-1.38 1.29-2.13-.71-.27-1.38-.6-2.02-1 .17-.12.34-.25.5-.38a14.2 14.2 0 0 0 12.06 0c.16.13.33.26.5.38-.64.4-1.31.73-2.02 1 .37.75.8 1.46 1.29 2.13a19.9 19.9 0 0 0 6.05-3.06c.4-4.14-.68-7.72-2.83-10.92zM8.68 13.1c-.94 0-1.71-.87-1.71-1.94 0-1.07.75-1.94 1.71-1.94.97 0 1.73.88 1.71 1.94 0 1.07-.75 1.94-1.71 1.94zm6.64 0c-.94 0-1.71-.87-1.71-1.94 0-1.07.75-1.94 1.71-1.94.97 0 1.73.88 1.71 1.94 0 1.07-.74 1.94-1.71 1.94z"/></svg>
+        </span>
+        <span class="label">Discord<br><small class="copy-text">@dotz.gg &middot; tap to copy</small></span>
+      </button>
     </div>
 
     <div class="business">
       <div class="business-name">Business</div>
-      <a class="link-btn" href="https://gameshopnepal.com" target="_blank" rel="noopener">
+      <a class="link-btn" style="--i:5" href="https://gameshopnepal.com" target="_blank" rel="noopener">
         <span class="icon">
           <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.93 8h-2.95a15.6 15.6 0 0 0-1.38-5.15A8.03 8.03 0 0 1 18.93 10zM12 4.04c.83 1.2 1.98 3.13 2.34 5.96H9.66c.36-2.83 1.51-4.76 2.34-5.96zM4.26 12h2.9c.07 1.39.32 2.72.72 4H4.26zm0-2a8.03 8.03 0 0 1 0-4h3.4A15.6 15.6 0 0 0 6.96 10h-2.7zm2.9 2h9.68c-.08 1.38-.35 2.7-.79 4H8.05a13.5 13.5 0 0 1-.79-4zm.5 6h9.68c-.71 1.61-1.79 2.98-2.9 3.96A8 8 0 0 1 7.66 18zm-.7-2H4.26a8.03 8.03 0 0 1 0-4H6.66c.07 1.39.32 2.72.72 4zm9.08 2c1.11-.98 2.19-2.35 2.9-3.96h2.9a8.03 8.03 0 0 1-2.9 3.96h-2.9z"/></svg>
         </span>
         <span class="label">GameShop Nepal<br><small>gameshopnepal.com</small></span>
       </a>
-      <a class="link-btn" href="mailto:support@gameshopnepal.com" style="margin-top: 12px;">
+      <a class="link-btn" style="--i:6; margin-top: 12px;" href="mailto:support@gameshopnepal.com">
         <span class="icon">
           <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
         </span>
@@ -247,5 +345,36 @@
     <p>&copy; 2026 Sushant Poudel</p>
   </footer>
   </div>
+
+  <script>
+    function copyHandle(btn) {
+      const text = btn.getAttribute('data-copy');
+      const label = btn.querySelector('.copy-text');
+      const original = label.textContent;
+
+      const done = () => {
+        btn.classList.add('copied');
+        label.textContent = 'Copied to clipboard!';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          label.textContent = original;
+        }, 1600);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done).catch(done);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(ta);
+        done();
+      }
+    }
+  </script>
 </body>
 </html>
