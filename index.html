@@ -232,10 +232,10 @@
     fill: currentColor;
   }
 
-  /* Real brand logos sit on a neutral circle instead of the tinted
-     gradient so their own colors read correctly. */
+  /* Real brand logos render directly with no tinted circle behind them
+     so their own colors read correctly. */
   .link-btn .icon.icon-logo {
-    background: rgba(255,255,255,0.92);
+    background: none;
   }
 
   .link-btn .icon img {
@@ -253,10 +253,6 @@
     font-size: 0.7rem;
     font-weight: 700;
     color: var(--text);
-  }
-
-  .link-btn .icon.icon-logo .icon-fallback {
-    color: #1a1a1a;
   }
 
   .link-btn .label small {
