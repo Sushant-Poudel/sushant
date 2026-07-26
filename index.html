@@ -184,6 +184,23 @@
     fill: currentColor;
   }
 
+  .link-btn .icon img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+
+  .link-btn .icon .icon-fallback {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
   .link-btn .label small {
     display: block;
     color: var(--muted);
@@ -303,21 +320,24 @@
 
       <a class="link-btn" style="--i:2" href="https://www.instagram.com/_sushant.paudel" target="_blank" rel="noopener">
         <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.22.6 1.77 1.15.5.5.9 1.11 1.15 1.77.25.64.42 1.37.47 2.43C21.99 8.94 22 9.28 22 12s-.01 3.06-.06 4.12c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.77c-.5.5-1.11.9-1.77 1.15-.64.25-1.37.42-2.43.47C15.06 21.99 14.72 22 12 22s-3.06-.01-4.12-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.25-.64-.42-1.37-.47-2.43C2.01 15.06 2 14.72 2 12s.01-3.06.06-4.12c.05-1.06.22-1.79.47-2.43.26-.66.6-1.22 1.15-1.77.5-.5 1.11-.9 1.77-1.15.64-.25 1.37-.42 2.43-.47C8.94 2.01 9.28 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.4-8.4a1.17 1.17 0 1 1-2.34 0 1.17 1.17 0 0 1 2.34 0z"/></svg>
+          <img src="https://static.xx.fbcdn.net/assets/?set=help_center_about_page_illustrations&amp;name=desktop-instagram-gradient-logo&amp;density=1" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <span class="icon-fallback">IG</span>
         </span>
         <span class="label">Instagram<br><small>@_sushant.paudel</small></span>
       </a>
 
       <a class="link-btn" style="--i:3" href="https://www.facebook.com/share/1URBNTi4gK/?mibextid=wwXIfr" target="_blank" rel="noopener">
         <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1280px-Facebook_f_logo_%282019%29.svg.png" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <span class="icon-fallback">FB</span>
         </span>
         <span class="label">Facebook<br><small>Sushant Poudel</small></span>
       </a>
 
       <button class="link-btn" type="button" style="--i:4" data-copy="dotz.gg" onclick="copyHandle(this)">
         <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M20.32 4.37a19.8 19.8 0 0 0-4.89-1.52 14.1 14.1 0 0 0-.64 1.32 18.4 18.4 0 0 0-5.58 0 14.1 14.1 0 0 0-.64-1.32 19.7 19.7 0 0 0-4.89 1.52C1.05 8.1.32 11.72.65 15.29a19.9 19.9 0 0 0 6.05 3.06c.49-.67.92-1.38 1.29-2.13-.71-.27-1.38-.6-2.02-1 .17-.12.34-.25.5-.38a14.2 14.2 0 0 0 12.06 0c.16.13.33.26.5.38-.64.4-1.31.73-2.02 1 .37.75.8 1.46 1.29 2.13a19.9 19.9 0 0 0 6.05-3.06c.4-4.14-.68-7.72-2.83-10.92zM8.68 13.1c-.94 0-1.71-.87-1.71-1.94 0-1.07.75-1.94 1.71-1.94.97 0 1.73.88 1.71 1.94 0 1.07-.75 1.94-1.71 1.94zm6.64 0c-.94 0-1.71-.87-1.71-1.94 0-1.07.75-1.94 1.71-1.94.97 0 1.73.88 1.71 1.94 0 1.07-.74 1.94-1.71 1.94z"/></svg>
+          <img src="https://logos-world.net/wp-content/uploads/2020/12/Discord-Emblem.png" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <span class="icon-fallback">DC</span>
         </span>
         <span class="label">Discord<br><small class="copy-text">@dotz.gg &middot; tap to copy</small></span>
       </button>
@@ -327,7 +347,8 @@
       <div class="business-name">Business</div>
       <a class="link-btn" style="--i:5" href="https://gameshopnepal.com" target="_blank" rel="noopener">
         <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm6.93 8h-2.95a15.6 15.6 0 0 0-1.38-5.15A8.03 8.03 0 0 1 18.93 10zM12 4.04c.83 1.2 1.98 3.13 2.34 5.96H9.66c.36-2.83 1.51-4.76 2.34-5.96zM4.26 12h2.9c.07 1.39.32 2.72.72 4H4.26zm0-2a8.03 8.03 0 0 1 0-4h3.4A15.6 15.6 0 0 0 6.96 10h-2.7zm2.9 2h9.68c-.08 1.38-.35 2.7-.79 4H8.05a13.5 13.5 0 0 1-.79-4zm.5 6h9.68c-.71 1.61-1.79 2.98-2.9 3.96A8 8 0 0 1 7.66 18zm-.7-2H4.26a8.03 8.03 0 0 1 0-4H6.66c.07 1.39.32 2.72.72 4zm9.08 2c1.11-.98 2.19-2.35 2.9-3.96h2.9a8.03 8.03 0 0 1-2.9 3.96h-2.9z"/></svg>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgrPMnY9nMbXksAG2sz2e0j2hRA4kp8R2EEfhX73JsyA&amp;s" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <span class="icon-fallback">GS</span>
         </span>
         <span class="label">GameShop Nepal<br><small>gameshopnepal.com</small></span>
       </a>
