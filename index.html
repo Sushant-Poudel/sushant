@@ -26,7 +26,7 @@
   }
 
   body {
-    background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000 65%);
+    background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, var(--bg) 65%);
     color: var(--text);
     min-height: 100vh;
     padding: 28px 16px 40px;
@@ -89,9 +89,10 @@
   .cover::before {
     content: "";
     position: absolute;
-    inset: -8%;
+    inset: 0;
     background: url("assets/background.webp") center center / cover no-repeat;
-    animation: cover-pan 18s ease-in-out infinite alternate;
+    animation: cover-breathe 9s ease-in-out infinite alternate;
+    transform-origin: center;
   }
 
   .cover::after {
@@ -204,6 +205,11 @@
     transform: translateY(0) scale(0.98);
   }
 
+  .link-btn:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
+  }
+
   .link-btn .icon {
     flex: none;
     width: 36px;
@@ -226,6 +232,12 @@
     fill: currentColor;
   }
 
+  /* Real brand logos sit on a neutral circle instead of the tinted
+     gradient so their own colors read correctly. */
+  .link-btn .icon.icon-logo {
+    background: rgba(255,255,255,0.92);
+  }
+
   .link-btn .icon img {
     width: 20px;
     height: 20px;
@@ -241,6 +253,10 @@
     font-size: 0.7rem;
     font-weight: 700;
     color: var(--text);
+  }
+
+  .link-btn .icon.icon-logo .icon-fallback {
+    color: #1a1a1a;
   }
 
   .link-btn .label small {
@@ -260,6 +276,9 @@
   }
 
   .business {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     margin-top: 6px;
     padding-top: 20px;
     position: relative;
@@ -323,9 +342,9 @@
     to { background-position: 200% center; }
   }
 
-  @keyframes cover-pan {
-    from { transform: scale(1.06) translate(-1.5%, -1%); }
-    to   { transform: scale(1.12) translate(1.5%, 1%); }
+  @keyframes cover-breathe {
+    from { transform: scale(1); }
+    to   { transform: scale(1.06); }
   }
 
   @keyframes avatar-float {
@@ -363,9 +382,12 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.001ms !important;
     }
-    .card, .avatar, h1, .tagline, .bio, .link-btn, .business-name, footer {
+    .card, .avatar, h1, .tagline, .bio, .business-name, footer {
       opacity: 1 !important;
       transform: none !important;
+    }
+    .link-btn {
+      opacity: 1 !important;
     }
     .business::before {
       width: 100% !important;
@@ -380,77 +402,78 @@
 <body>
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
+
   <div class="page">
-  <div class="card">
-    <div class="cover"></div>
-    <div class="card-body">
-    <img class="avatar" src="assets/profile.jpg" alt="Sushant Poudel">
-    <h1>Sushant Poudel</h1>
-    <p class="tagline">Founder, GameShop Nepal</p>
-    <p class="bio">Thanks for tapping my card! Here's where you can find and reach me.</p>
+    <div class="card">
+      <div class="cover"></div>
+      <div class="card-body">
+        <img class="avatar" src="assets/profile.jpg" alt="Sushant Poudel">
+        <h1>Sushant Poudel</h1>
+        <p class="tagline">Founder, GameShop Nepal</p>
+        <p class="bio">Thanks for tapping my card! Here's where you can find and reach me.</p>
 
-    <div class="links">
-      <a class="link-btn" style="--i:0" href="tel:+9779847057346">
-        <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.36 11.36 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
-        </span>
-        <span class="label">Call<br><small>+977 984-7057346</small></span>
-      </a>
+        <div class="links">
+          <a class="link-btn" style="--i:0" href="tel:+9779847057346">
+            <span class="icon">
+              <svg viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24 11.36 11.36 0 0 0 3.57.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.61 21 3 13.39 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11.36 11.36 0 0 0 .57 3.57 1 1 0 0 1-.25 1.02l-2.2 2.2z"/></svg>
+            </span>
+            <span class="label">Call<br><small>+977 984-7057346</small></span>
+          </a>
 
-      <a class="link-btn" style="--i:1" href="mailto:poudelsushant79@gmail.com">
-        <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
-        </span>
-        <span class="label">Email<br><small>poudelsushant79@gmail.com</small></span>
-      </a>
+          <a class="link-btn" style="--i:1" href="mailto:poudelsushant79@gmail.com">
+            <span class="icon">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
+            </span>
+            <span class="label">Email<br><small>poudelsushant79@gmail.com</small></span>
+          </a>
 
-      <a class="link-btn" style="--i:2" href="https://www.instagram.com/_sushant.paudel" target="_blank" rel="noopener">
-        <span class="icon">
-          <img src="https://static.xx.fbcdn.net/assets/?set=help_center_about_page_illustrations&amp;name=desktop-instagram-gradient-logo&amp;density=1" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-          <span class="icon-fallback">IG</span>
-        </span>
-        <span class="label">Instagram<br><small>@_sushant.paudel</small></span>
-      </a>
+          <a class="link-btn" style="--i:2" href="https://www.instagram.com/_sushant.paudel" target="_blank" rel="noopener">
+            <span class="icon icon-logo">
+              <img src="https://static.xx.fbcdn.net/assets/?set=help_center_about_page_illustrations&amp;name=desktop-instagram-gradient-logo&amp;density=1" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <span class="icon-fallback">IG</span>
+            </span>
+            <span class="label">Instagram<br><small>@_sushant.paudel</small></span>
+          </a>
 
-      <a class="link-btn" style="--i:3" href="https://www.facebook.com/share/1URBNTi4gK/?mibextid=wwXIfr" target="_blank" rel="noopener">
-        <span class="icon">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1280px-Facebook_f_logo_%282019%29.svg.png" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-          <span class="icon-fallback">FB</span>
-        </span>
-        <span class="label">Facebook<br><small>Sushant Poudel</small></span>
-      </a>
+          <a class="link-btn" style="--i:3" href="https://www.facebook.com/share/1URBNTi4gK/?mibextid=wwXIfr" target="_blank" rel="noopener">
+            <span class="icon icon-logo">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1280px-Facebook_f_logo_%282019%29.svg.png" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <span class="icon-fallback">FB</span>
+            </span>
+            <span class="label">Facebook<br><small>Sushant Poudel</small></span>
+          </a>
 
-      <button class="link-btn" type="button" style="--i:4" data-copy="dotz.gg" onclick="copyHandle(this)">
-        <span class="icon">
-          <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-          <span class="icon-fallback">DC</span>
-        </span>
-        <span class="label">Discord<br><small class="copy-text">@dotz.gg &middot; tap to copy</small></span>
-      </button>
+          <button class="link-btn" type="button" style="--i:4" data-copy="dotz.gg" onclick="copyHandle(this)">
+            <span class="icon icon-logo">
+              <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <span class="icon-fallback">DC</span>
+            </span>
+            <span class="label">Discord<br><small class="copy-text">@dotz.gg &middot; tap to copy</small></span>
+          </button>
+        </div>
+
+        <div class="business">
+          <div class="business-name">Business</div>
+          <a class="link-btn" style="--i:5" href="https://gameshopnepal.com" target="_blank" rel="noopener">
+            <span class="icon icon-logo">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgrPMnY9nMbXksAG2sz2e0j2hRA4kp8R2EEfhX73JsyA&amp;s" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+              <span class="icon-fallback">GS</span>
+            </span>
+            <span class="label">GameShop Nepal<br><small>gameshopnepal.com</small></span>
+          </a>
+          <a class="link-btn" style="--i:6" href="mailto:support@gameshopnepal.com">
+            <span class="icon">
+              <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
+            </span>
+            <span class="label">Work Email<br><small>support@gameshopnepal.com</small></span>
+          </a>
+        </div>
+      </div>
     </div>
 
-    <div class="business">
-      <div class="business-name">Business</div>
-      <a class="link-btn" style="--i:5" href="https://gameshopnepal.com" target="_blank" rel="noopener">
-        <span class="icon">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgrPMnY9nMbXksAG2sz2e0j2hRA4kp8R2EEfhX73JsyA&amp;s" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-          <span class="icon-fallback">GS</span>
-        </span>
-        <span class="label">GameShop Nepal<br><small>gameshopnepal.com</small></span>
-      </a>
-      <a class="link-btn" style="--i:6; margin-top: 12px;" href="mailto:support@gameshopnepal.com">
-        <span class="icon">
-          <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5z"/></svg>
-        </span>
-        <span class="label">Work Email<br><small>support@gameshopnepal.com</small></span>
-      </a>
-    </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>&copy; 2026 Sushant Poudel</p>
-  </footer>
+    <footer>
+      <p>&copy; 2026 Sushant Poudel</p>
+    </footer>
   </div>
 
   <script>
@@ -458,8 +481,14 @@
       btn.addEventListener('click', function (e) {
         const rect = btn.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
-        const x = (e.clientX ?? rect.left + rect.width / 2) - rect.left - size / 2;
-        const y = (e.clientY ?? rect.top + rect.height / 2) - rect.top - size / 2;
+        // Keyboard-triggered clicks (Enter/Space) report detail === 0 and
+        // clientX/clientY of 0, which is indistinguishable from a real
+        // click at the top-left corner — fall back to centering instead.
+        const isPointerClick = e.detail !== 0;
+        const originX = isPointerClick ? e.clientX : rect.left + rect.width / 2;
+        const originY = isPointerClick ? e.clientY : rect.top + rect.height / 2;
+        const x = originX - rect.left - size / 2;
+        const y = originY - rect.top - size / 2;
         const ripple = document.createElement('span');
         ripple.className = 'ripple';
         ripple.style.width = ripple.style.height = size + 'px';
@@ -473,12 +502,19 @@
     function copyHandle(btn) {
       const text = btn.getAttribute('data-copy');
       const label = btn.querySelector('.copy-text');
-      const original = label.textContent;
+
+      // Cache the resting label once so rapid repeat clicks can't capture
+      // "Copied to clipboard!" as the text to revert back to.
+      if (!btn.dataset.originalLabel) {
+        btn.dataset.originalLabel = label.textContent;
+      }
+      const original = btn.dataset.originalLabel;
 
       const done = () => {
+        clearTimeout(btn._copyRevertTimer);
         btn.classList.add('copied');
         label.textContent = 'Copied to clipboard!';
-        setTimeout(() => {
+        btn._copyRevertTimer = setTimeout(() => {
           btn.classList.remove('copied');
           label.textContent = original;
         }, 1600);
