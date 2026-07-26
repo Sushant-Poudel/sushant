@@ -22,6 +22,7 @@
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden;
   }
 
   body {
@@ -29,12 +30,41 @@
     color: var(--text);
     min-height: 100vh;
     padding: 28px 16px 40px;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .blob {
+    position: fixed;
+    z-index: -1;
+    width: 60vmax;
+    height: 60vmax;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .blob-1 {
+    top: -20vmax;
+    left: -20vmax;
+    background: radial-gradient(circle, var(--accent-1), transparent 70%);
+    animation: blob-drift-1 22s ease-in-out infinite alternate;
+  }
+
+  .blob-2 {
+    bottom: -25vmax;
+    right: -20vmax;
+    background: radial-gradient(circle, var(--accent-2), transparent 70%);
+    animation: blob-drift-2 26s ease-in-out infinite alternate;
   }
 
   .page {
     width: 100%;
     max-width: 420px;
     margin: 0 auto;
+    position: relative;
+    z-index: 1;
   }
 
   .card {
@@ -87,7 +117,8 @@
     margin: -58px auto 16px;
     display: block;
     animation: avatar-in 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s backwards,
-               avatar-glow 3s ease-in-out 0.8s infinite;
+               avatar-glow 3s ease-in-out 0.8s infinite,
+               avatar-float 5s ease-in-out 1s infinite;
   }
 
   h1 {
@@ -149,6 +180,17 @@
     opacity: 0;
     animation: fade-up 0.45s ease forwards;
     animation-delay: calc(var(--i, 0) * 0.06s + 0.55s);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    transform: scale(0);
+    animation: ripple-out 0.6s ease-out forwards;
+    pointer-events: none;
   }
 
   .link-btn:hover {
@@ -220,7 +262,18 @@
   .business {
     margin-top: 6px;
     padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+  }
+
+  .business::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 1px;
+    width: 0;
+    background: rgba(255,255,255,0.08);
+    animation: divider-grow 0.6s ease 0.8s forwards;
   }
 
   .business-name {
@@ -275,6 +328,30 @@
     to   { transform: scale(1.12) translate(1.5%, 1%); }
   }
 
+  @keyframes avatar-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes blob-drift-1 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(8vmax, 6vmax) scale(1.15); }
+  }
+
+  @keyframes blob-drift-2 {
+    from { transform: translate(0, 0) scale(1); }
+    to   { transform: translate(-6vmax, -8vmax) scale(1.1); }
+  }
+
+  @keyframes divider-grow {
+    from { width: 0; left: 50%; }
+    to   { width: 100%; left: 0; }
+  }
+
+  @keyframes ripple-out {
+    to { transform: scale(2.6); opacity: 0; }
+  }
+
   @media (max-width: 380px) {
     .card-body { padding: 0 20px 28px; }
     .link-btn { padding: 12px 14px; }
@@ -290,10 +367,19 @@
       opacity: 1 !important;
       transform: none !important;
     }
+    .business::before {
+      width: 100% !important;
+      left: 0 !important;
+    }
+    .blob {
+      display: none;
+    }
   }
 </style>
 </head>
 <body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
   <div class="page">
   <div class="card">
     <div class="cover"></div>
@@ -368,6 +454,22 @@
   </div>
 
   <script>
+    document.querySelectorAll('.link-btn').forEach(function (btn) {
+      btn.addEventListener('click', function (e) {
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = (e.clientX ?? rect.left + rect.width / 2) - rect.left - size / 2;
+        const y = (e.clientY ?? rect.top + rect.height / 2) - rect.top - size / 2;
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = x + 'px';
+        ripple.style.top = y + 'px';
+        btn.appendChild(ripple);
+        ripple.addEventListener('animationend', function () { ripple.remove(); });
+      });
+    });
+
     function copyHandle(btn) {
       const text = btn.getAttribute('data-copy');
       const label = btn.querySelector('.copy-text');
